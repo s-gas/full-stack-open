@@ -1,2 +1,2 @@
 # full-stack-open
-My solutions for University of Helsinki's Full Stack Open course 
+My solutions for the University of Helsinki's Full Stack Open course 
