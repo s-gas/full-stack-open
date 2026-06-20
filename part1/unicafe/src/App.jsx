@@ -15,6 +15,10 @@ const Feedback = ({feedbacks}) => {
   )
 }
 
+const StatisticLine = ({name, count}) => {
+  return <div>{name} {count}</div>
+}
+
 const Statistics = ({feedbacks}) => {
   const total = feedbacks.reduce((tot, cur) => tot + cur.count, 0);
   const average = feedbacks.reduce((tot, cur) => tot + (cur.count * cur.value), 0) / total;
@@ -30,12 +34,12 @@ const Statistics = ({feedbacks}) => {
   return (
     <div>
       <h1>statistics</h1>
-      <div>{feedbacks[0].name} {feedbacks[0].count}</div>
-      <div>{feedbacks[1].name} {feedbacks[1].count}</div>
-      <div>{feedbacks[2].name} {feedbacks[2].count}</div>
-      <div>total {total}</div>
-      <div>average {average}</div>
-      <div>positive {positive}%</div>
+      <StatisticLine name={feedbacks[0].name} count={feedbacks[0].count} />
+      <StatisticLine name={feedbacks[1].name} count={feedbacks[1].count} />
+      <StatisticLine name={feedbacks[2].name} count={feedbacks[2].count} />
+      <StatisticLine name="total" count={total} />
+      <StatisticLine name="average" count={average} />
+      <StatisticLine name="positive" count={`${positive}%`} />
     </div>
   )
 }
