@@ -16,7 +16,12 @@ const Feedback = ({feedbacks}) => {
 }
 
 const StatisticLine = ({name, count}) => {
-  return <div>{name} {count}</div>
+  return (
+    <tr>
+      <td>{name}</td>
+      <td>{count}</td>
+    </tr>
+  )
 }
 
 const Statistics = ({feedbacks}) => {
@@ -34,12 +39,16 @@ const Statistics = ({feedbacks}) => {
   return (
     <div>
       <h1>statistics</h1>
-      <StatisticLine name={feedbacks[0].name} count={feedbacks[0].count} />
-      <StatisticLine name={feedbacks[1].name} count={feedbacks[1].count} />
-      <StatisticLine name={feedbacks[2].name} count={feedbacks[2].count} />
-      <StatisticLine name="total" count={total} />
-      <StatisticLine name="average" count={average} />
-      <StatisticLine name="positive" count={`${positive}%`} />
+      <table>
+        <tbody>
+          <StatisticLine name={feedbacks[0].name} count={feedbacks[0].count} />
+          <StatisticLine name={feedbacks[1].name} count={feedbacks[1].count} />
+          <StatisticLine name={feedbacks[2].name} count={feedbacks[2].count} />
+          <StatisticLine name="total" count={total} />
+          <StatisticLine name="average" count={average} />
+          <StatisticLine name="positive" count={`${positive}%`} />
+        </tbody>
+      </table>
     </div>
   )
 }
