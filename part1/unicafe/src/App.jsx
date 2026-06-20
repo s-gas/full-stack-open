@@ -19,6 +19,14 @@ const Statistics = ({feedbacks}) => {
   const total = feedbacks.reduce((tot, cur) => tot + cur.count, 0);
   const average = feedbacks.reduce((tot, cur) => tot + (cur.count * cur.value), 0) / total;
   const positive = feedbacks.reduce((tot, cur) => cur.value > 0 ? tot + cur.count : tot, 0) / total * 100;
+  if (!total) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
   return (
     <div>
       <h1>statistics</h1>
