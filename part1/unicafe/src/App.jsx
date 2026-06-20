@@ -16,12 +16,18 @@ const Feedback = ({feedbacks}) => {
 }
 
 const Statistics = ({feedbacks}) => {
+  const total = feedbacks.reduce((tot, cur) => tot + cur.count, 0);
+  const average = feedbacks.reduce((tot, cur) => tot + (cur.count * cur.value), 0) / total;
+  const positive = feedbacks.reduce((tot, cur) => cur.value > 0 ? tot + cur.count : tot, 0) / total * 100;
   return (
     <div>
       <h1>statistics</h1>
       <div>{feedbacks[0].name} {feedbacks[0].count}</div>
       <div>{feedbacks[1].name} {feedbacks[1].count}</div>
       <div>{feedbacks[2].name} {feedbacks[2].count}</div>
+      <div>total {total}</div>
+      <div>average {average}</div>
+      <div>positive {positive}%</div>
     </div>
   )
 }
@@ -36,16 +42,19 @@ const App = () => {
       name: "good",
       count: good,
       setter: setGood,
+      value: 1,
     },
     {
       name: "neutral",
       count: neutral,
       setter: setNeutral,
+      value: 0,
     },
     {
       name: "bad",
       count: bad,
       setter: setBad,
+      value: -1,
     },
   ];
 
