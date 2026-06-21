@@ -1,5 +1,15 @@
 import { useState } from 'react'
 
+const Anecdote = ({title, anecdote, votes}) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <div>{anecdote}</div>
+      <div>has {votes} votes</div>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -11,21 +21,30 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
-  const [selected, setSelected] = useState(0)
+  const firstIndex = Math.floor(Math.random() * anecdotes.length)
+  const [selected, setSelected] = useState(firstIndex)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));  
+  const [mostVotedIndex, setMostVotedIndex] = useState(0);
 
-  const handleClick = () => {
+  const handleNext = () => {
     let index = selected;
     while (index === selected) {
-      index = (Math.floor(Math.random() * (anecdotes.length - 1)));
+      index = Math.floor(Math.random() * anecdotes.length);
     }
     setSelected(index);
   }
 
+  const handleVote = () => {
+    setVotes(votes.map((vote, i) => i === selected ? vote + 1 : vote));
+    if (votes[selected] + 1 > votes[mostVotedIndex]) setMostVotedIndex(selected);
+  }
+
   return (
     <div>
-      <div>{anecdotes[selected]}</div>
-      <button onClick={handleClick}>next anecdote</button>
+      <Anecdote title="Anecdote of the day" anecdote={anecdotes[selected]} votes={votes[selected]} />
+      <button onClick={handleVote}>vote</button>
+      <button onClick={handleNext}>next anecdote</button>
+      <Anecdote title="Anecdote with most votes" anecdote={anecdotes[mostVotedIndex]} votes={votes[mostVotedIndex]} />
     </div>
   )
 }
