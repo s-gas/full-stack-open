@@ -44,9 +44,14 @@ const App = () => {
         .create(newPerson)
         .then(data => {
           setPersons(persons.concat(data));
-          setNewName('');
-        })
+        });
     }
+  }
+
+  const handleDelete = (id) => {
+    api
+      .remove(id)
+      .then(setPersons(persons.filter(person => person.id != id)));
   }
 
   return (
@@ -56,7 +61,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm cbSubmit={handleSubmit} cbName={handleNameInput} cbNumber={handleNumberInput} />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} callback={handleDelete} />
     </div>
   )
 }
