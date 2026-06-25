@@ -12,8 +12,8 @@ const create = (obj) => {
   return req.then(res => res.data);
 }
 
-const remove = (id) => {
-  const req = axios.delete(`${url}/${id}`);
+const remove = (person) => {
+  const req = axios.delete(`${url}/${person.id}`);
   return req.then(res => res.data);
 }
 

@@ -3,7 +3,7 @@ const Persons = ({persons, filter, callback}) => {
 
   return filtered.map((person) => (
     <div key={person.id}>{person.name} {person.number}
-      <button onClick={() => callback(person.id)}>delete</button>
+      <button onClick={() => callback(person)}>delete</button>
     </div>
   ));
 }

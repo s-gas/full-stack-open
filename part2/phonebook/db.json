@@ -1,9 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
+      "id": "1",
+      "name": "Steve",
+      "number": "12345"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

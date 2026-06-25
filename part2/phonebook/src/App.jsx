@@ -48,10 +48,12 @@ const App = () => {
     }
   }
 
-  const handleDelete = (id) => {
-    api
-      .remove(id)
-      .then(setPersons(persons.filter(person => person.id != id)));
+  const handleDelete = (entry) => {
+    if (confirm(`delete ${entry.name}?`)) {
+      api
+        .remove(entry)
+        .then(setPersons(persons.filter(person => person.id != entry.id)));
+    }
   }
 
   return (
