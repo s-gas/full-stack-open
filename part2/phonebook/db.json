@@ -2,13 +2,23 @@
   "persons": [
     {
       "name": "Steve",
-      "number": "100",
+      "number": "101",
       "id": "1"
     },
     {
       "name": "Meg",
       "number": "121314",
       "id": "1mR_-5dF6x0"
+    },
+    {
+      "name": "sdasdfas",
+      "number": "11111",
+      "id": "u7BUxQWt3-M"
+    },
+    {
+      "name": "sssksk",
+      "number": "10101",
+      "id": "eAG3OEgnNNo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

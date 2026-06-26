@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import api from './services/persons'
 
 const App = () => {
@@ -10,17 +10,13 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
       api
         .getAll()
         .then(data => setPersons(data));
   }, [])
-
-  const filtered = persons.filter((person) => 
-    person.name.toLowerCase().includes(filter.toLowerCase(), 0)
-  );
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
@@ -34,16 +30,24 @@ const App = () => {
     setNewNumber(e.target.value);
   }
 
+  const notify = (message) => {
+    setNotificationMessage(message);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 2000);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPerson = { name: newName, number: newNumber };
     const person = persons.find((person) => person.name === newName);
     if (person) {
-      if (confirm(`${newName} is already added to the phonebook, replcae the old number with a new one?`)) {
+      if (confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         api
           .update(newPerson, person.id)
           .then(data => {
             setPersons(persons.map((person) => person.id === data.id ? data : person));
+            notify(`Modified ${newPerson.name}`);
           });
       }
     } else {
@@ -51,6 +55,7 @@ const App = () => {
         .create(newPerson)
         .then(data => {
           setPersons(persons.concat(data));
+          notify(`Added ${newPerson.name}`);
         });
     }
   }
@@ -59,13 +64,17 @@ const App = () => {
     if (confirm(`delete ${entry.name}?`)) {
       api
         .remove(entry)
-        .then(setPersons(persons.filter(person => person.id != entry.id)));
+        .then(() => {
+          setPersons(persons.filter(person => person.id != entry.id));
+          notify(`Deleted ${entry.name}`);
+        });
     }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter callback={handleFilter} />
       <h2>add a new</h2>
       <PersonForm cbSubmit={handleSubmit} cbName={handleNameInput} cbNumber={handleNumberInput} />
