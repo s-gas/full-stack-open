@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const Country = ({country}) => {
   return (
     <div>
@@ -13,20 +15,28 @@ const Country = ({country}) => {
   )
 }
 
-const Countries = ({countries, query}) => {
+const Countries = ({countries, query, setQuery}) => {
   if (!query || !countries) return null;
-  
-  const filtered = countries.filter((country) => country.name.common.toLowerCase().includes(query.toLowerCase()));
-  if (filtered.length > 10) return <div>Too many matches, specify another filter</div>;
-  if (filtered.length > 1) {
+
+  const handleClick = (country) => {
+    setQuery(country.name.common);
+  }
+
+  if (countries.length > 10) return <div>Too many matches, specify another filter</div>;
+  if (countries.length > 1) {
     return (
-      filtered.map((country) => (
-        <div key={country.name.common}>{country.name.common}</div>
-      )
-    ));
+      <div>
+        {countries.map((country) => (
+          <div key={country.name.common}>
+            {country.name.common}{' '}
+            <button onClick={() => handleClick(country)}>Show</button>
+          </div>
+        ))}
+      </div>
+    );
   };
-  if (filtered.length === 1) {
-    return <Country country={filtered[0]} />;
+  if (countries.length === 1) {
+    return <Country country={countries[0]} />;
   }
   return <div>No matches, specify another filter</div>;
 }

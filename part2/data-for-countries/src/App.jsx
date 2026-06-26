@@ -18,11 +18,15 @@ function App() {
     setQuery(e.target.value);
   }
 
+  const filtered = countries.filter((country) => (
+    country.name.common.toLowerCase().includes(query.toLowerCase())
+  ));
+
   return (
     <div>
       <label htmlFor="query-countries">find countries</label>
       <input type="text" name="query-countries" onChange={handleChange}/>
-      <Countries countries={countries} query={query} />
+      <Countries countries={filtered} query={query} setQuery={setQuery}/>
     </div>
   )
 }
