@@ -36,10 +36,17 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+    const newPerson = { name: newName, number: newNumber };
+    const person = persons.find((person) => person.name === newName);
+    if (person) {
+      if (confirm(`${newName} is already added to the phonebook, replcae the old number with a new one?`)) {
+        api
+          .update(newPerson, person.id)
+          .then(data => {
+            setPersons(persons.map((person) => person.id === data.id ? data : person));
+          });
+      }
     } else {
-      const newPerson = { name: newName, number: newNumber };
       api
         .create(newPerson)
         .then(data => {

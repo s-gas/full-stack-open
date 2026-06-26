@@ -7,14 +7,19 @@ const getAll = () => {
   return req.then(res => res.data);
 }
 
-const create = (obj) => {
-  const req = axios.post(url, obj);
+const create = (entry) => {
+  const req = axios.post(url, entry);
   return req.then(res => res.data);
 }
 
-const remove = (person) => {
-  const req = axios.delete(`${url}/${person.id}`);
+const update = (entry, id) => {
+  const req = axios.put(`${url}/${id}`, entry);
   return req.then(res => res.data);
 }
 
-export default { getAll, create, remove }
+const remove = (entry) => {
+  const req = axios.delete(`${url}/${entry.id}`);
+  return req.then(res => res.data);
+}
+
+export default { getAll, create, update, remove }
