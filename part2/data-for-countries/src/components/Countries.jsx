@@ -1,6 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import apiWeather from '../api/weather'
+
+const toCelsius = (temp) => {
+  const tempCelsius = (temp - 32) * 5 / 9;
+  return tempCelsius.toFixed(2);
+}
 
 const Country = ({country}) => {
+  const [weather, setWeather ] = useState(null);
+
+  const capital = country.capital[0];
+
+  useEffect(() => {
+    apiWeather
+      .getCurrentWeather(capital)
+      .then(res => {
+        const tempCelsius = toCelsius(res.temp);
+        setWeather({temp: tempCelsius, windspeed: res.windspeed})
+      });
+  }, []);
+
+  if (weather == null) return;
+
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -11,6 +32,9 @@ const Country = ({country}) => {
         {Object.values(country.languages).map((language) => <li key={language}>{language}</li>)}
       </ul>
       <img src={country.flags.png} alt={country.flags.alt} />
+      <h2>Weather in {country.capital}</h2>
+      <div>Temperature {weather.temp} Celsius</div>
+      <div>Wind {weather.windspeed} m/s</div>
     </div>
   )
 }

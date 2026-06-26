@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import Countries from './components/Countries'
-import api from './api/countries'
+import apiCountries from './api/countries'
 
 function App() {
   const [countries, setCountries] = useState(null);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    api
+    apiCountries
       .getAll()
       .then(res => setCountries(res.data));
   }, []);
