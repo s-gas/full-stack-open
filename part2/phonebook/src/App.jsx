@@ -30,8 +30,8 @@ const App = () => {
     setNewNumber(e.target.value);
   }
 
-  const notify = (message) => {
-    setNotificationMessage(message);
+  const notify = (text, color) => {
+    setNotificationMessage({text, color});
     setTimeout(() => {
       setNotificationMessage(null);
     }, 2000);
@@ -47,15 +47,16 @@ const App = () => {
           .update(newPerson, person.id)
           .then(data => {
             setPersons(persons.map((person) => person.id === data.id ? data : person));
-            notify(`Modified ${newPerson.name}`);
-          });
+            notify(`Modified ${newPerson.name}`, "green");
+          })
+          .catch(notify(`${newPerson.name} was already deleted`, "red"));
       }
     } else {
       api
         .create(newPerson)
         .then(data => {
           setPersons(persons.concat(data));
-          notify(`Added ${newPerson.name}`);
+          notify(`Added ${newPerson.name}`, "green");
         });
     }
   }
@@ -66,7 +67,7 @@ const App = () => {
         .remove(entry)
         .then(() => {
           setPersons(persons.filter(person => person.id != entry.id));
-          notify(`Deleted ${entry.name}`);
+          notify(`Deleted ${entry.name}`, "green");
         });
     }
   }
@@ -74,7 +75,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage}/>
       <Filter callback={handleFilter} />
       <h2>add a new</h2>
       <PersonForm cbSubmit={handleSubmit} cbName={handleNameInput} cbNumber={handleNumberInput} />
