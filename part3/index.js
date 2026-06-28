@@ -31,6 +31,16 @@ app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
 
+app.get("/api/persons/:id", (req, res) => {
+  const id = req.params.id;
+  const entry = persons.find((person) => person.id === id);
+  if (!entry) {
+    res.status(400).json({error: "not found"});
+    return;
+  }
+  res.json(entry);
+});
+
 app.get("/info", (req, res) => {
   const numEntries = persons.length;
   const info = numEntries === 1 ? `Phonebook has info for ${numEntries} person` : `Phonebook has info for ${numEntries} people`;
