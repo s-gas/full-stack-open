@@ -35,9 +35,24 @@ app.get("/api/persons/:id", (req, res) => {
   const id = req.params.id;
   const entry = persons.find((person) => person.id === id);
   if (!entry) {
-    res.status(400).json({error: "not found"});
+    res.status(404).json({error: "not found"});
     return;
   }
+  res.json(entry);
+});
+
+app.post("/api/persons", (req, res) => {
+  const entry = req.body;
+  if (!entry.name || !entry.number) {
+    res.status(400).json({error: "name or number cannot be empty"});
+    return;
+  }
+  if (persons.find((person) => person.name === entry.name)) {
+    res.status(409).json({error: "name must be unique"});
+    return;
+  }
+  if (!entry.id) entry.id = Math.floor(Math.random() * 1000000).toString();
+  persons = persons.concat(entry);
   res.json(entry);
 });
 
