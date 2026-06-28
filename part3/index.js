@@ -41,6 +41,13 @@ app.get("/api/persons/:id", (req, res) => {
   res.json(entry);
 });
 
+app.delete("/api/persons/:id", (req, res) => {
+  const id = req.params.id;
+  persons = persons.filter((person) => person.id !== id);
+
+  res.status(204).end();
+});
+
 app.get("/info", (req, res) => {
   const numEntries = persons.length;
   const info = numEntries === 1 ? `Phonebook has info for ${numEntries} person` : `Phonebook has info for ${numEntries} people`;
