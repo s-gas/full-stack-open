@@ -28,9 +28,16 @@ let persons =
 ];
 
 app.get("/api/persons", (req, res) => {
-  console.log("received request");
   res.json(persons);
-})
+});
+
+app.get("/info", (req, res) => {
+  const numEntries = persons.length;
+  const info = numEntries === 1 ? `Phonebook has info for ${numEntries} person` : `Phonebook has info for ${numEntries} people`;
+  res.send(
+  `<div>${info}</div><div>${new Date().toString()}</div>` 
+  )
+});
 
 const port = 3001;
 
