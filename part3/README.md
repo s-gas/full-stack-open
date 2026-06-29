@@ -1,6 +1,6 @@
 # phonebook backend
 
-The backend is deployed on render at <https://phonebook-h49z.onrender.com>
+The backend is deployed on Render at <https://phonebook-h49z.onrender.com>
 
 ## API Endpoints
 
