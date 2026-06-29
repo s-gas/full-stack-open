@@ -80,7 +80,7 @@ app.get("/info", (req, res) => {
   )
 });
 
-const port = 3001;
+const port = process.env.port || 3001;
 
 app.listen(port, () => {
   console.log(`server listening at :${port}`);
