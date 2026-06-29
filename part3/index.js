@@ -1,7 +1,14 @@
 const express = require('express');
+const morgan = require('morgan')
 const app = express();
 
 app.use(express.json());
+
+morgan.token('body', function (req) {
+  return JSON.stringify(req.body);
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 let persons =
 [
@@ -42,7 +49,7 @@ app.get("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-  const entry = req.body;
+  const entry = {...req.body};
   if (!entry.name || !entry.number) {
     res.status(400).json({error: "name or number cannot be empty"});
     return;
