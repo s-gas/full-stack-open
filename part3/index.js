@@ -11,6 +11,8 @@ morgan.token('body', function (req) {
   return JSON.stringify(req.body);
 })
 
+const persons = [];
+
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 app.get("/api/persons", (req, res) => {
@@ -19,12 +21,10 @@ app.get("/api/persons", (req, res) => {
 
 app.get("/api/persons/:id", (req, res) => {
   const id = req.params.id;
-  const entry = persons.find((person) => person.id === id);
-  if (!entry) {
-    res.status(404).json({error: "not found"});
-    return;
-  }
-  res.json(entry);
+  Person
+    .findById(id)
+    .then((person) => res.json(person))
+    .catch((error) => res.json(error));
 });
 
 app.post("/api/persons", (req, res) => {
