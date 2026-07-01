@@ -23,8 +23,14 @@ app.get("/api/persons/:id", (req, res) => {
   const id = req.params.id;
   Person
     .findById(id)
-    .then((person) => res.json(person))
-    .catch((error) => res.json(error));
+    .then((person) => {
+      if (person) res.json(person);
+      else res.status(404).json({error: "not found"});
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({error: "malformatted id"});
+    });
 });
 
 app.post("/api/persons", (req, res) => {
@@ -37,9 +43,11 @@ app.post("/api/persons", (req, res) => {
     res.status(409).json({error: "name must be unique"});
     return;
   }
-  if (!entry.id) entry.id = Math.floor(Math.random() * 1000000).toString();
-  persons = persons.concat(entry);
-  res.json(entry);
+  const person = new Person(entry);
+  person.save().then(() => {
+    console.log("new entry saved")
+    res.json(entry);
+  });
 });
 
 app.delete("/api/persons/:id", (req, res) => {
