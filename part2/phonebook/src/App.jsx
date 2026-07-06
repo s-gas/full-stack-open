@@ -14,8 +14,7 @@ const App = () => {
 
   useEffect(() => {
       api
-        .getAll()
-        .then(data => setPersons(data));
+        .getAll() .then(data => setPersons(data));
   }, [])
 
   const handleFilter = (e) => {
@@ -59,7 +58,7 @@ const App = () => {
           notify(`Added ${newPerson.name}`, "green");
         })
         .catch(error => {
-          notify(error.response.data.message, "red");
+          notify(Object.values(error.response.data.error)[0].message, "red");
         });
     }
   }
