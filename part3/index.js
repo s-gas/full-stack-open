@@ -18,7 +18,10 @@ const errorHandler = (error, req, res, next) => {
     res.status(400).json({error: "malformatted id"});
     return;
   }
-
+  if (error.name === "ValidationError") {
+    res.status(400).json(error);
+    return;
+  }
   next(error);
 }
 
@@ -39,27 +42,25 @@ app.get("/api/persons/:id", (req, res, next) => {
     .catch((error) => next(error)); //next with an argument jumps to the first error-handling middleware -> func(error, req, res, next)
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const entry = {...req.body};
-  if (!entry.name || !entry.number) {
-    res.status(400).json({error: "name or number cannot be empty"});
-    return;
-  }
   const person = new Person(entry);
-  person.save().then(() => {
-    console.log("new entry saved")
-    res.json(entry);
-  });
+  person
+    .save()
+    .then(() => {
+      console.log("new entry saved")
+      res.json(entry);
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (req, res, next) => {
   const entry = req.body;
   const id = req.params.id;
   Person
-    .findById(id)
+    .findByIdAndUpdate(id, entry, {new: true, runValidators: true})
     .then((person) => {
       if (person) {
-        person.number = entry.number;
         res.json(person);
       }
       else res.status(404).json({error: "not found"});

@@ -57,6 +57,9 @@ const App = () => {
         .then(data => {
           setPersons(persons.concat(data));
           notify(`Added ${newPerson.name}`, "green");
+        })
+        .catch(error => {
+          notify(error.response.data.message, "red");
         });
     }
   }
