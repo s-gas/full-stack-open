@@ -80,11 +80,13 @@ app.delete("/api/persons/:id", (req, res, next) => {
 });
 
 app.get("/info", (req, res) => {
-  const numEntries = persons.length;
-  const info = numEntries === 1 ? `Phonebook has info for ${numEntries} person` : `Phonebook has info for ${numEntries} people`;
-  res.send(
-  `<div>${info}</div><div>${new Date().toString()}</div>` 
-  )
+  Person.find({}).then((people) => {
+    const numEntries = people.length;
+    const info = numEntries === 1 ? `Phonebook has info for ${numEntries} person` : `Phonebook has info for ${numEntries} people`;
+    res.send(
+    `<div>${info}</div><div>${new Date().toString()}</div>` 
+    )
+  });
 });
 
 app.use(errorHandler);
