@@ -47,15 +47,26 @@ app.post("/api/persons", (req, res) => {
     res.status(400).json({error: "name or number cannot be empty"});
     return;
   }
-  if (persons.find((person) => person.name === entry.name)) {
-    res.status(409).json({error: "name must be unique"});
-    return;
-  }
   const person = new Person(entry);
   person.save().then(() => {
     console.log("new entry saved")
     res.json(entry);
   });
+});
+
+app.put("/api/persons/:id", (req, res, next) => {
+  const entry = req.body;
+  const id = req.params.id;
+  Person
+    .findById(id)
+    .then((person) => {
+      if (person) {
+        person.number = entry.number;
+        res.json(person);
+      }
+      else res.status(404).json({error: "not found"});
+    })
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (req, res, next) => {
