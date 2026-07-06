@@ -11,8 +11,6 @@ morgan.token('body', function (req) {
   return JSON.stringify(req.body);
 })
 
-const persons = [];
-
 const errorHandler = (error, req, res, next) => {
   console.error(error);
 
