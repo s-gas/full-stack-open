@@ -190,4 +190,80 @@ describe('most blogs', () => {
 });
 
 
+describe('most likes', () => {
+  const mostLikes = listHelper.mostLikes;
 
+  test('empty array', () => {
+    assert.strictEqual(mostLikes([]), undefined);
+  });
+
+  test('array with one element', () => {
+    const blogs = [
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 3,
+      }
+    ];
+
+    const expected = {
+      author: "x",
+      likes: 3,
+    };
+
+    assert.deepStrictEqual(mostLikes(blogs), expected);
+  });
+
+  test('array with 2 elements (same author)', () => {
+    const blogs = [
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 3,
+      },
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 2,
+      },
+    ];
+
+    const expected = {
+      author: "x",
+      likes: 5,
+    };
+
+    assert.deepStrictEqual(mostLikes(blogs), expected);
+  });
+  
+  test('array with 3 elements (2 of the same author)', () => {
+    const blogs = [
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 1,
+      },
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+      },
+      {
+        title: "x",
+        author: "y",
+        url: "x",
+      }
+    ];
+
+    const expected = {
+      author: "x",
+      likes: 1,
+    };
+
+    assert.deepStrictEqual(mostLikes(blogs), expected);
+  });
+});

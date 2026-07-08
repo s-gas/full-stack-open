@@ -31,10 +31,24 @@ const mostBlogs = (blogs) => {
     }
   }
 
-  return authors.reduce((most, cur) => {
-    if (!most || cur.blogs > most.blogs) return cur;
-    else return most;
-  }, undefined);
+  return authors.reduce((most, cur) => (!most || cur.blogs > most.blogs) ? cur : most, undefined);
 }
 
-module.exports = {dummy, totalLikes, favoriteBlog, mostBlogs}
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) return;
+
+  const authors = [];
+
+  for (let blog of blogs) {
+    let index = authors.findIndex((author) => author.author === blog.author)
+    if (index != -1 && blog.likes) {
+      authors[index].likes += blog.likes;
+    } else {
+      authors.push({author: blog.author, likes: blog.likes ?? 0});
+    }
+  }
+
+  return authors.reduce((most, cur) => (!most || cur.likes > most.likes) ? cur : most, undefined);
+}
+
+module.exports = {dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes}
