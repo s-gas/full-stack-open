@@ -47,9 +47,8 @@ app.post('/api/persons', (req, res, next) => {
   const person = new Person(entry)
   person
     .save()
-    .then(() => {
-      console.log('new entry saved')
-      res.json(entry)
+    .then((result) => {
+      res.status(201).json(result)
     })
     .catch((error) => next(error))
 })
