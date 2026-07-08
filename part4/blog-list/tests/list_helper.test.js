@@ -74,3 +74,43 @@ describe('total likes', () => {
     assert.strictEqual(totalLikes(blogs), 5);
   });
 });
+
+describe('favorite blog', () => {
+  const favoriteBlog = listHelper.favoriteBlog;
+
+  test('empty array', () => {
+    assert.strictEqual(favoriteBlog([]), undefined);
+  });
+
+  test('array with 1 element', () => {
+    const blogs = [
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 2
+      }
+    ]
+
+    assert.deepStrictEqual(favoriteBlog(blogs), blogs[0]);
+  });
+
+  test('array with 2 elements', () => {
+    const blogs = [
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 2
+      },
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 3
+      },
+    ]
+    
+    assert.deepStrictEqual(favoriteBlog(blogs), blogs[1]);
+  });
+});
