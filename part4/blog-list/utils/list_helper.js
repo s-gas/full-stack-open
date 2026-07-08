@@ -17,4 +17,24 @@ const favoriteBlog = (blogs) => {
   }, undefined); 
 }
 
-module.exports = {dummy, totalLikes, favoriteBlog}
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) return;
+
+  const authors = [];
+
+  for (let blog of blogs) {
+    let index = authors.findIndex((author) => author.author === blog.author)
+    if (index != -1) {
+      authors[index].blogs++;
+    } else {
+      authors.push({author: blog.author, blogs: 1});
+    }
+  }
+
+  return authors.reduce((most, cur) => {
+    if (!most || cur.blogs > most.blogs) return cur;
+    else return most;
+  }, undefined);
+}
+
+module.exports = {dummy, totalLikes, favoriteBlog, mostBlogs}
