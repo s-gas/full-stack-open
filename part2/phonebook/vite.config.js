@@ -12,7 +12,7 @@ export default defineConfig({
       },
       '/info': {
         target: 'http://localhost:3001',
-        changeOring: true,
+        changeOrigin: true,
       },
     }
   },
