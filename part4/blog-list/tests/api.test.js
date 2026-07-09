@@ -57,7 +57,8 @@ test('GET request returns entries with "id"', async () => {
   await blog.save()
 
   const res = await api.get('/api/blogs');
-
+  
+  assert(Object.keys(res.body[0]).includes('id'));
 })
 
 after(async () => {
