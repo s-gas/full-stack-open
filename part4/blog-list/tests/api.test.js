@@ -129,6 +129,46 @@ describe('POST requests', () => {
 
     assert.strictEqual(res.body[0].likes, 0)
   })
+
+
+  test('returns 400 when missing required properties', async () => {
+    const requestBody = {
+      author: "x",
+      url: "x",
+    }
+
+    await api
+            .post('/api/blogs')
+            .send(requestBody)
+            .expect(400)
+  });
+})
+
+
+describe('DELETE requests', () => {
+  test('returns 204', async () => {
+    const requestBody = {
+      title: "x",
+      author: "x",
+      url: "x",
+    }
+
+    const response = await api
+                            .post('/api/blogs')
+                            .send(requestBody)
+
+    const id = response.body.id;
+    await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+  })
+
+
+  test('returns 400 with malformatted id', async () => {
+    await api
+            .delete(`/api/blogs/123`)
+            .expect(400)
+  })
 })
 
 after(async () => {
