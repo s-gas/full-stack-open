@@ -17,7 +17,7 @@ test('200 for GET requests', async () => {
         .expect(200)
 })
 
-test('empty array with empty db', async () => {
+test('GET request with empty db', async () => {
   await api
         .get('/api/blogs')
         .expect(200)
@@ -26,6 +26,23 @@ test('empty array with empty db', async () => {
   
   assert.strictEqual(res.body.length, 0);
 })
+
+test('GET request with one entry', async () => {
+  const blog = new Blog(
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 2
+      }
+  )
+
+  await blog.save()
+
+  const res = await api.get('/api/blogs');
+
+  assert.strictEqual(res.body.length, 1);
+});
 
 after(async () => {
   await mongoose.connection.close();
