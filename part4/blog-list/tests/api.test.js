@@ -44,6 +44,22 @@ test('GET request with one entry', async () => {
   assert.strictEqual(res.body.length, 1);
 });
 
+test('GET request returns entries with "id"', async () => {
+  const blog = new Blog(
+      {
+        title: "x",
+        author: "x",
+        url: "x",
+        likes: 2
+      }
+  )
+ 
+  await blog.save()
+
+  const res = await api.get('/api/blogs');
+
+})
+
 after(async () => {
   await mongoose.connection.close();
 })
