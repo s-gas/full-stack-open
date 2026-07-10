@@ -171,6 +171,30 @@ describe('DELETE requests', () => {
   })
 })
 
+
+describe('PUT requests', () => {
+  test('returns 200', async () => {
+    const requestBody = {
+      title: "x",
+      author: "x",
+      url: "x",
+    }
+
+    const response = await api
+                            .post('/api/blogs')
+                            .send(requestBody)
+
+    requestBody.title = "y";
+
+    const id = response.body.id;
+    await api
+            .put(`/api/blogs/${id}`)
+            .send(requestBody)
+            .expect(200)
+
+  })
+})
+
 after(async () => {
   await mongoose.connection.close();
 })
