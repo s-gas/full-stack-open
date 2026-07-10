@@ -193,6 +193,28 @@ describe('PUT requests', () => {
             .expect(200)
 
   })
+  
+  test('likes gets updated', async () => {
+    const requestBody = {
+      title: "x",
+      author: "x",
+      url: "x",
+      likes: 1,
+    }
+
+    const responsePost = await api
+                            .post('/api/blogs')
+                            .send(requestBody)
+
+    requestBody.likes++;
+
+    const id = responsePost.body.id;
+    const responsePut = await api
+                          .put(`/api/blogs/${id}`)
+                          .send(requestBody)
+
+    assert.strictEqual(responsePut.body.likes, 2)
+  })
 })
 
 after(async () => {
