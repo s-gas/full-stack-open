@@ -7,6 +7,30 @@ const User = require('../models/user')
 
 const api = supertest(app);
 
+const endpoint = '/api/users'
+
+beforeEach(async () => {
+  await User.deleteMany({});
+})
+
+describe('GET requests', () => {
+  test('returns 200', async () => {
+    const payload = {
+      username: "x",
+      password: "x",
+      name: "x",
+    }
+  
+    await api
+            .post(endpoint)
+            .send(payload);
+    
+    await api
+            .get(endpoint)
+            .expect(200);
+  })
+})
+
 describe('POST requests', () => {
   test('returns 201', async () => {
     const payload = {
@@ -16,7 +40,7 @@ describe('POST requests', () => {
     }
 
     await api
-            .post('/api/users')    
+            .post(endpoint)    
             .send(payload)
             .expect(201);
   })
