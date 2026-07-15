@@ -4,11 +4,30 @@ const assert = require('node:assert')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const api = supertest(app);
 
+let token;
+
 beforeEach(async () => {
   await Blog.deleteMany({});
+  await User.deleteMany({});
+
+  const user = {
+    username: "John",
+    password: "djsjdks",
+  }
+
+  await api
+        .post('/api/users')
+        .send(user)
+
+  const response = await api
+                          .post('/api/login')
+                          .send(user)
+
+  token = response.body.token;
 })
 
 describe('GET requests', () => {
@@ -66,6 +85,7 @@ describe('GET requests', () => {
 
 describe('POST requests', () => {
 
+
   test('returns 201', async () => {
     const requestBody = {
       title: "x",
@@ -76,6 +96,7 @@ describe('POST requests', () => {
 
     await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
             .expect(201)
   })
@@ -90,6 +111,7 @@ describe('POST requests', () => {
 
     await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
 
     const res = await api.get('/api/blogs');
@@ -107,6 +129,7 @@ describe('POST requests', () => {
 
     await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
 
     const res = await api.get('/api/blogs')
@@ -123,6 +146,7 @@ describe('POST requests', () => {
 
     await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
 
     const res = await api.get('/api/blogs')
@@ -139,6 +163,7 @@ describe('POST requests', () => {
 
     await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
             .expect(400)
   });
@@ -155,11 +180,13 @@ describe('DELETE requests', () => {
 
     const response = await api
                             .post('/api/blogs')
+                            .set('Authorization', `Bearer ${token}`)
                             .send(requestBody)
 
     const id = response.body.id;
     await api
             .delete(`/api/blogs/${id}`)
+            .set('Authorization', `Bearer ${token}`)
             .expect(204)
   })
 
@@ -167,6 +194,7 @@ describe('DELETE requests', () => {
   test('returns 400 with malformatted id', async () => {
     await api
             .delete(`/api/blogs/123`)
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
   })
 })
@@ -182,6 +210,7 @@ describe('PUT requests', () => {
 
     const response = await api
                             .post('/api/blogs')
+                            .set('Authorization', `Bearer ${token}`)
                             .send(requestBody)
 
     requestBody.title = "y";
@@ -189,6 +218,7 @@ describe('PUT requests', () => {
     const id = response.body.id;
     await api
             .put(`/api/blogs/${id}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(requestBody)
             .expect(200)
 
@@ -204,6 +234,7 @@ describe('PUT requests', () => {
 
     const responsePost = await api
                             .post('/api/blogs')
+                            .set('Authorization', `Bearer ${token}`)
                             .send(requestBody)
 
     requestBody.likes++;
@@ -211,6 +242,7 @@ describe('PUT requests', () => {
     const id = responsePost.body.id;
     const responsePut = await api
                           .put(`/api/blogs/${id}`)
+                          .set('Authorization', `Bearer ${token}`)
                           .send(requestBody)
 
     assert.strictEqual(responsePut.body.likes, 2)
