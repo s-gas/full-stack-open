@@ -167,6 +167,19 @@ describe('POST requests', () => {
             .send(requestBody)
             .expect(400)
   });
+
+  test('return 401 when token is incorrect', async() => {
+    const requestBody = {
+      author: "x",
+      url: "x",
+    }
+   
+    await api
+            .post('/api/blogs')
+            .set('Authorization', 'Bearer dsjdsjdhaksjdhkajshd23232.32323232.dsdasd')
+            .send(requestBody)
+            .expect(401)
+  });
 })
 
 
