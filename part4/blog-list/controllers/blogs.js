@@ -21,10 +21,16 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   response.status(201).json(entry)
 })
 
-blogsRouter.put('/:id', async (request, response) => {
-  const entry = await Blog.findByIdAndUpdate(request.params.id, request.body, {returnDocument: "after"})
-  if (entry) response.json(entry)
-  else response.status(404).json({error: "not found"})
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(404).json({error: "not found"})
+  }
+  if (request.user.id.toString() !== blog.user.toString()) {
+    return response.status(401).json({error: "not allowed"});
+  }
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, {returnDocument: "after"})
+  response.json(updatedBlog)
 })
 
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
