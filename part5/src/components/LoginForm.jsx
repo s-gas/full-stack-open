@@ -7,7 +7,6 @@ const LoginForm = ({setUser}) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit");
     try {
       const user = await loginService.login({username, password});
       setUser(user);

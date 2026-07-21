@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import Blogs from './components/Blogs'
+import getUser from './utils/localStorage'
 
 const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userJSON = window.localStorage.getItem('user');
-    if (userJSON) {
-      const user = JSON.parse(userJSON);
+    const user = getUser();
+    if (user) {
       setUser(user);
     }
   }, []);
