@@ -6,9 +6,10 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    (async() => {
+      const blogs = await blogService.getAll();
       setBlogs( blogs )
-    )  
+    })();
   }, [])
 
   return (
