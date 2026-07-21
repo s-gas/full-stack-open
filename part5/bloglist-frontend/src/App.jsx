@@ -8,7 +8,7 @@ const App = () => {
   if (!user) {
     return <LoginForm setUser={setUser} />
   }
-  return <Blogs />
+  return <Blogs user={user}/>
 }
 
 export default App

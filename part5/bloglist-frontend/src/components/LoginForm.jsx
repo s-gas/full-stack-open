@@ -13,6 +13,7 @@ const LoginForm = ({setUser}) => {
       setUser(user);
       setUsername('');
       setPassword('');
+      console.log(user);
     } catch (err) {
       console.log(err);
     }
