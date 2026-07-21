@@ -16,7 +16,7 @@ const App = () => {
   if (!user) {
     return <LoginForm setUser={setUser} />
   }
-  return <Blogs user={user}/>
+  return <Blogs user={user} setUser={setUser} />
 }
 
 export default App
