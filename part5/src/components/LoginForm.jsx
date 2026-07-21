@@ -4,6 +4,7 @@ import loginService from '../services/login'
 const LoginForm = ({setUser}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState('');
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,12 +16,15 @@ const LoginForm = ({setUser}) => {
       window.localStorage.setItem('user', JSON.stringify(user));
     } catch (err) {
       console.log(err);
+      setNotification('wrong username or password');
+      setTimeout(() => setNotification(''), 2000);
     }
   }
 
   return (
     <div>
       <h2>log in to application</h2>
+      {notification && <p>{notification}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>

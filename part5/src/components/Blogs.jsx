@@ -7,11 +7,16 @@ const Blogs = ({user, setUser}) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+  const [notification, setNotification] = useState('');
   
   useEffect(() => {
     (async() => {
-      const blogs = await blogService.getAll();
-      setBlogs( blogs )
+      try {
+        const blogs = await blogService.getAll();
+        setBlogs( blogs )
+      } catch (err) {
+        console.log("failed to fetch blogs");
+      }
     })();
   }, [])
 
@@ -22,13 +27,23 @@ const Blogs = ({user, setUser}) => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    const blog = await blogService.create({title, author, url});
-    setBlogs(blogs.concat(blog));
+
+    try {
+      const blog = await blogService.create({title, author, url});
+      setBlogs(blogs.concat(blog));
+      setNotification(`a new blog ${title} by ${author} added`);
+      setTimeout(() => setNotification(''), 2000);
+    } catch (err) {
+      console.log("failed to create new blog");
+      setNotification("failed to create new blog");
+      setTimeout(() => setNotification(''), 2000);
+    }
   }
 
   return (
     <div>
       <h2>blogs</h2>
+      {notification && <p>{notification}</p>}
       <span>{user.name} logged in</span><button onClick={handleLogout}>logout</button>
       
       <h2>create new</h2>
