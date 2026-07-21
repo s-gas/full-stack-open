@@ -10,7 +10,10 @@ const Blog = ({ blog }) => {
       {isShown && 
         <>
           <div>{blog.url}</div>
-          <div>{blog.likes}</div>
+          <div>
+            <span>likes {blog.likes}</span>
+            <button onClick={() => console.log("click")}>like</button> 
+          </div>
           <div>{blog.user.name}</div>
         </>
       }
