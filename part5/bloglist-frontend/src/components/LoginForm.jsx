@@ -13,7 +13,7 @@ const LoginForm = ({setUser}) => {
       setUser(user);
       setUsername('');
       setPassword('');
-      console.log(user);
+      window.localStorage.setItem('user', JSON.stringify(user));
     } catch (err) {
       console.log(err);
     }
