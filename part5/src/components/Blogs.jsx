@@ -8,6 +8,7 @@ const Blogs = ({user, setUser}) => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   const [notification, setNotification] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState(false);
   
   useEffect(() => {
     (async() => {
@@ -46,28 +47,38 @@ const Blogs = ({user, setUser}) => {
       {notification && <p>{notification}</p>}
       <span>{user.name} logged in</span><button onClick={handleLogout}>logout</button>
       
-      <h2>create new</h2>
-      <form onSubmit={handleCreate}>
+      {!isFormVisible &&
         <div>
-          <label>
-            title:
-            <input onChange={(e) => setTitle(e.target.value)}/>
-          </label>
+          <button onClick={() => setIsFormVisible(true)}>create new blog</button>
         </div>
-        <div>
-          <label>
-            author:
-            <input onChange={(e) => setAuthor(e.target.value)}/>
-          </label>
-        </div>
-        <div>
-          <label>
-            url:
-            <input onChange={(e) => setUrl(e.target.value)}/>
-          </label>
-        </div>
-        <button type="submit">create</button>
-      </form>
+      }
+      {isFormVisible &&
+        <>
+          <h2>create new</h2>
+          <form onSubmit={handleCreate}>
+            <div>
+              <label>
+                title:
+                <input onChange={(e) => setTitle(e.target.value)}/>
+              </label>
+            </div>
+            <div>
+              <label>
+                author:
+                <input onChange={(e) => setAuthor(e.target.value)}/>
+              </label>
+            </div>
+            <div>
+              <label>
+                url:
+                <input onChange={(e) => setUrl(e.target.value)}/>
+              </label>
+            </div>
+            <button type="submit">create</button>
+          </form>
+          <button onClick={() => setIsFormVisible(false)}>cancel</button>
+        </>
+      }
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
