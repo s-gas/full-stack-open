@@ -14,7 +14,7 @@ const Blogs = ({user, setUser}) => {
         const blogs = await blogService.getAll();
         setBlogs(blogs.sort((a, b) => b.likes - a.likes))
       } catch (err) {
-        console.log("failed to fetch blogs");
+        console.log("failed to fetch blogs", err);
       }
     })();
   }, [])
