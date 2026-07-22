@@ -4,9 +4,15 @@ import blogService from '../services/blogs'
 const Blog = ({blogs, setBlogs, blog}) => {
   const [isShown, setIsShown] = useState(false);
 
-  const handleClick = async () => {
+  const handleLike = async () => {
     const updatedBlog = await blogService.like(blog);
     setBlogs(blogs.map((b) => b.id === updatedBlog.id ? b = updatedBlog : b).sort((a, b) => b.likes - a.likes));
+  }
+
+  const handleRemove = async () => {
+    if (!confirm(`Remove blog ${blog.title} by ${blog.author}`)) return;
+    await blogService.remove(blog);
+    setBlogs(blogs.filter((b) => b.id !== blog.id));
   }
   
   return (
@@ -18,9 +24,10 @@ const Blog = ({blogs, setBlogs, blog}) => {
           <div>{blog.url}</div>
           <div>
             <span>likes {blog.likes}</span>
-            <button onClick={handleClick}>like</button> 
+            <button onClick={handleLike}>like</button> 
           </div>
           <div>{blog.user.name}</div>
+          <button onClick={handleRemove}>remove</button>
         </>
       }
     </div>
