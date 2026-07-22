@@ -1,5 +1,5 @@
 import axios from 'axios'
-import getUser from '../utils/localStorage'
+import storage from '../utils/storage'
 
 const baseUrl = '/api/blogs'
 
@@ -9,7 +9,7 @@ const getAll = async () => {
 }
 
 const create = async (blog) => {
-  const user = getUser();
+  const user = storage.getUser();
   const config = {
     headers: { Authorization: `Bearer ${user.token}` },
   }
@@ -18,7 +18,7 @@ const create = async (blog) => {
 }
 
 const remove = async (blog) => {
-  const user = getUser();
+  const user = storage.getUser();
   const config = {
     headers: { Authorization: `Bearer ${user.token}` },
   }
@@ -34,7 +34,7 @@ const like = async (blog) => {
     user: blog.user.id,
   }
   const url = `${baseUrl}/${blog.id}`;
-  const user = getUser();
+  const user = storage.getUser();
   const config = {
     headers: { Authorization: `Bearer ${user.token}` },
   }

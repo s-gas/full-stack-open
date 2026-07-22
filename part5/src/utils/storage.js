@@ -6,4 +6,4 @@ const getUser = () => {
   }
 }
 
-export default getUser
+export default { getUser }

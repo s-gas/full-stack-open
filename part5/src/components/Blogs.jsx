@@ -35,7 +35,7 @@ const Blogs = ({user, setUser}) => {
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
           {blogs.map(blog =>
-            <Blog key={blog.id} blogs={blogs} setBlogs={setBlogs} blog={blog} />
+            <Blog key={blog.id} user={user} blogs={blogs} setBlogs={setBlogs} blog={blog} />
           )}
         </div>
       }
