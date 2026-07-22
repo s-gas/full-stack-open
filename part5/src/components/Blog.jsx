@@ -1,13 +1,12 @@
 import { useState} from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ b }) => {
+const Blog = ({blogs, setBlogs, blog}) => {
   const [isShown, setIsShown] = useState(false);
-  const [blog, setBlog] = useState(b);
 
   const handleClick = async () => {
     const updatedBlog = await blogService.like(blog);
-    setBlog(updatedBlog);
+    setBlogs(blogs.map((b) => b.id === updatedBlog.id ? b = updatedBlog : b).sort((a, b) => b.likes - a.likes));
   }
   
   return (

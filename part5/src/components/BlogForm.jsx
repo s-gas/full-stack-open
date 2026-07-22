@@ -11,7 +11,7 @@ const BlogForm = ({blogs, setBlogs, setNotification, setIsFormVisible}) => {
     console.log(title, author, url);
     try {
       const blog = await blogService.create({title, author, url});
-      setBlogs(blogs.concat(blog));
+      setBlogs(blogs.concat(blog).sort((a, b) => b.likes - a.likes));
       setNotification(`a new blog ${title} by ${author} added`);
       setTimeout(() => setNotification(''), 2000);
       setIsFormVisible(false);

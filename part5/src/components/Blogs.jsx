@@ -12,7 +12,7 @@ const Blogs = ({user, setUser}) => {
     (async() => {
       try {
         const blogs = await blogService.getAll();
-        setBlogs( blogs )
+        setBlogs(blogs.sort((a, b) => b.likes - a.likes))
       } catch (err) {
         console.log("failed to fetch blogs");
       }
@@ -35,7 +35,7 @@ const Blogs = ({user, setUser}) => {
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
           {blogs.map(blog =>
-            <Blog key={blog.id} b={blog} />
+            <Blog key={blog.id} blogs={blogs} setBlogs={setBlogs} blog={blog} />
           )}
         </div>
       }
