@@ -22,14 +22,14 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 })
 
 blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
-  const blog = await Blog.findById(request.params.id).populate('user')
+  const blog = await Blog.findById(request.params.id).populate('user');
   if (!blog) {
     return response.status(404).json({error: "not found"})
   }
   if (request.user.id.toString() !== blog.user.id) {
     return response.status(401).json({error: "not allowed"});
   }
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, {returnDocument: "after"})
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, {returnDocument: "after"}).populate('user');
   response.json(updatedBlog)
 })
 

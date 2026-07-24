@@ -24,15 +24,29 @@ const Blogs = ({user, setUser}) => {
     setUser(null);
   }
 
-  const handleLike = async () => {
+  const likeBlog = async (blog) => {
     const updatedBlog = await blogService.like(blog);
     setBlogs(blogs.map((b) => b.id === updatedBlog.id ? b = updatedBlog : b).sort((a, b) => b.likes - a.likes));
   }
 
-  const handleRemove = async () => {
+  const removeBlog = async (blog) => {
     if (!confirm(`Remove blog ${blog.title} by ${blog.author}`)) return;
     await blogService.remove(blog);
     setBlogs(blogs.filter((b) => b.id !== blog.id));
+  }
+
+  const createBlog = async (title, author, url) => {
+    try {
+      const blog = await blogService.create({title, author, url});
+      setBlogs(blogs.concat(blog).sort((a, b) => b.likes - a.likes));
+      setNotification(`a new blog ${title} by ${author} added`);
+      setTimeout(() => setNotification(''), 2000);
+      setIsFormVisible(false);
+    } catch (err) {
+      console.log(err);
+      setNotification("failed to create new blog");
+      setTimeout(() => setNotification(''), 2000);
+    }
   }
 
   return (
@@ -45,11 +59,11 @@ const Blogs = ({user, setUser}) => {
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
           {blogs.map(blog =>
-            <Blog key={blog.id} user={user} blog={blog} handleLike={handleLike} handleRemove={handleRemove}/>
+            <Blog key={blog.id} user={user} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog}/>
           )}
         </div>
       }
-      {isFormVisible && <BlogForm blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} setIsFormVisible={setIsFormVisible}/>}
+      {isFormVisible && <BlogForm createBlog={createBlog} setIsFormVisible={setIsFormVisible}/>}
     </div>
   )
 }

@@ -86,7 +86,7 @@ test('handler gets called twice when button is clicked twice', async () => {
 
   const mockHandler = vi.fn()
 
-  render(<Blog blog={blog} user={user} handleLike={mockHandler}/>)
+  render(<Blog blog={blog} user={user} likeBlog={mockHandler}/>)
 
   const u = userEvent.setup();
   const viewButton = screen.getByText("view");
