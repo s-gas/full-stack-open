@@ -1,19 +1,7 @@
 import { useState} from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({user, blogs, setBlogs, blog}) => {
+const Blog = ({user, blog, handleLike, handleRemove}) => {
   const [isShown, setIsShown] = useState(false);
-
-  const handleLike = async () => {
-    const updatedBlog = await blogService.like(blog);
-    setBlogs(blogs.map((b) => b.id === updatedBlog.id ? b = updatedBlog : b).sort((a, b) => b.likes - a.likes));
-  }
-
-  const handleRemove = async () => {
-    if (!confirm(`Remove blog ${blog.title} by ${blog.author}`)) return;
-    await blogService.remove(blog);
-    setBlogs(blogs.filter((b) => b.id !== blog.id));
-  }
  
   return (
     <div className="blog">

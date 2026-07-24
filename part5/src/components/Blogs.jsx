@@ -24,6 +24,16 @@ const Blogs = ({user, setUser}) => {
     setUser(null);
   }
 
+  const handleLike = async () => {
+    const updatedBlog = await blogService.like(blog);
+    setBlogs(blogs.map((b) => b.id === updatedBlog.id ? b = updatedBlog : b).sort((a, b) => b.likes - a.likes));
+  }
+
+  const handleRemove = async () => {
+    if (!confirm(`Remove blog ${blog.title} by ${blog.author}`)) return;
+    await blogService.remove(blog);
+    setBlogs(blogs.filter((b) => b.id !== blog.id));
+  }
 
   return (
     <div>
@@ -35,7 +45,7 @@ const Blogs = ({user, setUser}) => {
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
           {blogs.map(blog =>
-            <Blog key={blog.id} user={user} blogs={blogs} setBlogs={setBlogs} blog={blog} />
+            <Blog key={blog.id} user={user} blog={blog} handleLike={handleLike} handleRemove={handleRemove}/>
           )}
         </div>
       }
