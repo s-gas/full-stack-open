@@ -16,7 +16,7 @@ const Blog = ({user, blogs, setBlogs, blog}) => {
   }
  
   return (
-    <div>
+    <div className="blog">
       <span>{blog.title} {blog.author}</span>
       <button onClick={() => setIsShown(!isShown)}>{isShown ? "hide" : "view"}</button>
       {isShown && 
