@@ -3,8 +3,6 @@ import { useState} from 'react'
 const Blog = ({user, blog, likeBlog, removeBlog}) => {
   const [isShown, setIsShown] = useState(false);
 
-  console.log(user);
-  console.log(blog);
   return (
     <div className="blog">
       <span>{blog.title} {blog.author}</span>

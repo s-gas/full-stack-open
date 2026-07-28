@@ -59,6 +59,9 @@ test.describe("Blog app", () => {
       await page.getByLabel("url").fill("url");
 
       await page.getByRole("button", { name: "create" }).click();
+
+      const message = page.getByText("a new blog");
+      await expect(message).toBeVisible();
     })
   })
 });
