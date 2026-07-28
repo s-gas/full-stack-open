@@ -15,8 +15,10 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   const entry = await blog.save()
 
   request.user.blogs = request.user.blogs.concat(entry._id)
-  
+
   await request.user.save()
+
+  await entry.populate('user')
 
   response.status(201).json(entry)
 })

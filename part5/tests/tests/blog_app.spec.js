@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.describe("Blog app", () => {
 
   test.beforeEach(async ({ page, request }) => {
-    await request.delete('http://localhost:3003/api/reset')
+    await request.delete('http://localhost:3003/reset')
     await request.post('http://localhost:3003/api/users', {
       data: {
         username: "s-gas",
@@ -38,4 +38,27 @@ test.describe("Blog app", () => {
       await expect(errorMessage).toBeVisible();
     })
   });
+
+  test.describe("After login", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.getByLabel("username").fill("s-gas");
+      await page.getByLabel("password").fill("00000000");
+      await page.getByText("login").click();
+    })
+
+    test("user can create a new blog", async ({ page }) => {
+      const createButton = page.getByText("create new blog");
+      await expect(createButton).toBeVisible();
+      await createButton.click();
+
+      const title = page.getByText("create new");
+      await expect(title).toBeVisible();
+
+      await page.getByLabel("title").fill("title");
+      await page.getByLabel("author").fill("author");
+      await page.getByLabel("url").fill("url");
+
+      await page.getByRole("button", { name: "create" }).click();
+    })
+  })
 });
