@@ -73,7 +73,7 @@ test.describe("Blog app", () => {
     })
 
     test.describe("After blog creation", () => {
-      test.beforeEach(async ({page}) => {
+      test.beforeEach(async ({ page }) => {
         await page.getByRole("button", { name: "create new blog" }).click();
         await page.getByLabel("title").fill("title");
         await page.getByLabel("author").fill("author");
@@ -107,6 +107,35 @@ test.describe("Blog app", () => {
 
         const removeButton = page.getByRole("button", { name: "remove" });
         await expect(removeButton).not.toBeVisible();
+      })
+
+      test("blogs are sorted based on likes", async ({ page }) => {
+        await page.getByRole("button", { name: "create new blog" }).click();
+        await page.getByLabel("title").fill("new");
+        await page.getByLabel("author").fill("new");
+        await page.getByLabel("url").fill("new");
+        await page.getByRole("button", { name: "create" }).click();
+
+        const message = page.getByText("a new blog");
+        await expect(message).toBeVisible();
+
+        let viewButtons = page.getByRole("button", { name: "view" });
+        await viewButtons.nth(1).click();
+
+        await page.getByRole("button", { name: "like" }).click();
+        let likes = page.getByText("likes 1");
+        await expect(likes).toBeVisible();
+
+        await page.getByRole("button", { name: "like" }).click();
+        likes = page.getByText("likes 2");
+        await expect(likes).toBeVisible();
+
+        await page.getByRole("button", { name: "hide" }).click();
+
+        viewButtons = page.getByRole("button", { name: "view" });
+        await viewButtons.nth(0).click();
+        likes = page.getByText("likes 2");
+        await expect(likes).toBeVisible();
       })
     })
   })
