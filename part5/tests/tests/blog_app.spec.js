@@ -80,6 +80,12 @@ test.describe("Blog app", () => {
         const likes = page.getByText("likes 1");
         await expect(likes).toBeVisible();
       })
+
+      test("user can delete a blog", async ({ page }) => {
+        await page.getByRole("button", { name: "view" }).click();
+        page.on('dialog', dialog => dialog.accept());
+        await page.getByRole("button", { name: "remove" }).click();
+      })
     })
   })
 });

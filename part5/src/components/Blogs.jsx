@@ -7,7 +7,7 @@ const Blogs = ({user, setUser}) => {
   const [blogs, setBlogs] = useState([]);
   const [notification, setNotification] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
-  
+
   useEffect(() => {
     (async() => {
       try {
@@ -33,6 +33,8 @@ const Blogs = ({user, setUser}) => {
     if (!confirm(`Remove blog ${blog.title} by ${blog.author}`)) return;
     await blogService.remove(blog);
     setBlogs(blogs.filter((b) => b.id !== blog.id));
+    setNotification(`blog ${blog.title} by ${blog.author} removed`);
+    setTimeout(() => setNotification(''), 2000);
   }
 
   const createBlog = async (title, author, url) => {
@@ -54,7 +56,7 @@ const Blogs = ({user, setUser}) => {
       <h2>blogs</h2>
       {notification && <p>{notification}</p>}
       <span>{user.name} logged in</span><button onClick={handleLogout}>logout</button>
-      
+
       {!isFormVisible &&
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
