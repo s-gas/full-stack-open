@@ -10,7 +10,15 @@ test.describe("Blog app", () => {
         username: "s-gas",
         password: "00000000",
         name: "Simone Gasparini",
-    } })
+      }
+    })
+    await request.post("http://localhost:3003/api/users", {
+      data: {
+        username: "test",
+        password: "test",
+        name: "test",
+      }
+    })
     await page.goto('http://localhost:5173');
   });
 
@@ -88,6 +96,17 @@ test.describe("Blog app", () => {
 
         const message = page.getByText("removed");
         await expect(message).toBeVisible();
+      })
+
+      test("other user can't delete", async ({ page }) => {
+        await page.getByRole("button", { name: "logout" }).click();
+        await page.getByLabel("username").fill("test");
+        await page.getByLabel("password").fill("test");
+        await page.getByRole("button", { name: "login" }).click();
+        await page.getByRole("button", { name: "view" }).click();
+
+        const removeButton = page.getByRole("button", { name: "remove" });
+        await expect(removeButton).not.toBeVisible();
       })
     })
   })
