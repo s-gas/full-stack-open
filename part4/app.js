@@ -5,6 +5,7 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
+const resetRouter = require('./controllers/reset')
 
 const app = express()
 
@@ -14,6 +15,8 @@ mongoose
   .catch(() => console.log("Failed to connect to db"));
 
 app.use(express.json());
+
+app.use('/reset', resetRouter)
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
