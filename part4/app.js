@@ -16,7 +16,9 @@ mongoose
 
 app.use(express.json());
 
-app.use('/reset', resetRouter)
+if (config.NODE_ENV === "test") {
+  app.use('/reset', resetRouter)
+}
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
