@@ -63,5 +63,23 @@ test.describe("Blog app", () => {
       const message = page.getByText("a new blog");
       await expect(message).toBeVisible();
     })
+
+    test.describe("After blog creation", () => {
+      test.beforeEach(async ({page}) => {
+        await page.getByRole("button", { name: "create new blog" }).click();
+        await page.getByLabel("title").fill("title");
+        await page.getByLabel("author").fill("author");
+        await page.getByLabel("url").fill("url");
+        await page.getByRole("button", { name: "create" }).click();
+      })
+
+      test("user can like the blog", async ({ page }) => {
+        await page.getByRole("button", { name: "view" }).click();
+        await page.getByRole("button", { name: "like" }).click();
+
+        const likes = page.getByText("likes 1");
+        await expect(likes).toBeVisible();
+      })
+    })
   })
 });
