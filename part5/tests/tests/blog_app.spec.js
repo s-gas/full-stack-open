@@ -85,6 +85,9 @@ test.describe("Blog app", () => {
         await page.getByRole("button", { name: "view" }).click();
         page.on('dialog', dialog => dialog.accept());
         await page.getByRole("button", { name: "remove" }).click();
+
+        const message = page.getByText("removed");
+        await expect(message).toBeVisible();
       })
     })
   })
