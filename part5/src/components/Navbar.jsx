@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ user, handleLogout }) => {
   return (
-    <div className="flex justify-between items-baseline gap-2 px-6 py-2 border-b border-gray-300 mb-8">
+    <div className="flex justify-between items-baseline gap-2 px-6 py-4 border-b border-gray-300 mb-8">
       <p className="text-xl">Blog App</p>
       <div className="flex gap-2">
         <Link to="/" className="uppercase hover:underline underline-offset-4">Blogs</Link>
