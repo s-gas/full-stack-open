@@ -20,7 +20,7 @@ const BlogForm = ({createBlog}) => {
 
   return (
     <div className="px-6 py-2 flex flex-col gap-2">
-      <h2 className="text-2xl">create new</h2>
+      <h1 className="text-2xl">create new</h1>
       <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
         <Input label="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <Input label="author" value={author} onChange={(e) => setAuthor(e.target.value)} />

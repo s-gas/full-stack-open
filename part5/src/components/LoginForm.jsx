@@ -28,7 +28,7 @@ const LoginForm = ({setUser}) => {
 
   return (
     <div className="flex flex-col gap-4 px-6 py-2">
-      <h2 className="text-2xl">log in to application</h2>
+      <h1 className="text-2xl">log in to application</h1>
       <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
         <Input label="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
         <Input label="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
