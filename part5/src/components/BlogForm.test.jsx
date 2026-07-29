@@ -1,16 +1,21 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BlogForm from './BlogForm'
+import { BrowserRouter } from 'react-router-dom';
 
 test('event handler called with right details', async () => {
   const createBlog = vi.fn();
 
   const user = userEvent.setup();
 
-  render(<BlogForm createBlog={createBlog} />);
+  render(
+    <BrowserRouter>
+      <BlogForm createBlog={createBlog} />
+    </BrowserRouter>
+  );
 
   const input = screen.getByLabelText('title:')
-  const button = screen.getByText('create')
+  const button = screen.getByRole('button', { name: 'create' })
 
   await user.type(input, "hello");
   await user.click(button);
