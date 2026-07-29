@@ -1,9 +1,9 @@
 const Blog = ({user, blog, likeBlog, removeBlog}) => {
-
+  if (!blog) return null;
   return (
     <div className="blog">
       <h2>{blog.author}: {blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
+      <a href={blog.url} target="_blank" rel="noopener noreferrer">{blog.url}</a>
       <div className="likes">
         <span>likes {blog.likes}</span>
         {user && <button onClick={() => likeBlog(blog)}>like</button>}

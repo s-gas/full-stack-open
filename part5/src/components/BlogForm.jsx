@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const BlogForm = ({createBlog, setIsFormVisible}) => {
+const BlogForm = ({createBlog}) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,6 +13,7 @@ const BlogForm = ({createBlog, setIsFormVisible}) => {
     setTitle('');
     setAuthor('');
     setUrl('');
+    navigate('/');
   }
 
   return (
@@ -37,7 +40,6 @@ const BlogForm = ({createBlog, setIsFormVisible}) => {
         </div>
         <button type="submit">create</button>
       </form>
-      <button onClick={() => setIsFormVisible(false)}>cancel</button>
     </>
   )
 }
