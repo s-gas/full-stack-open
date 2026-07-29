@@ -2,3 +2,15 @@
   display: flex;
   gap: 8px;
 }
+
+.blogs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.blog {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 8px;
+}

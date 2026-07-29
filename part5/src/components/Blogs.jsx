@@ -56,8 +56,7 @@ const Blogs = ({user, setUser}) => {
       <h2>blogs</h2>
       {notification && <p>{notification}</p>}
       {!isFormVisible &&
-        <div>
-          <button onClick={() => setIsFormVisible(true)}>create new blog</button>
+        <div className="blogs">
           {blogs.map(blog =>
             <Blog key={blog.id} user={user} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog}/>
           )}
