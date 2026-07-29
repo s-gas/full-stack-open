@@ -1,28 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useMatch, Link } from 'react-router-dom'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
 
-const Blogs = ({user, setUser}) => {
-  const [blogs, setBlogs] = useState([]);
+const Blogs = ({blogs, setBlogs, user}) => {
   const [notification, setNotification] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  useEffect(() => {
-    (async() => {
-      try {
-        const blogs = await blogService.getAll();
-        setBlogs(blogs.sort((a, b) => b.likes - a.likes))
-      } catch (err) {
-        console.log("failed to fetch blogs", err);
-      }
-    })();
-  }, [])
-
-  const handleLogout = () => {
-    window.localStorage.removeItem('user');
-    setUser(null);
-  }
+  const match = useMatch("/blogs/:id")
+  const blog = match ? blogs.find(b => b.id === match.params.id) : null;
 
   const likeBlog = async (blog) => {
     const updatedBlog = await blogService.like(blog);
@@ -53,16 +40,21 @@ const Blogs = ({user, setUser}) => {
 
   return (
     <div>
-      <h2>blogs</h2>
-      {notification && <p>{notification}</p>}
-      {!isFormVisible &&
-        <div className="blogs">
-          {blogs.map(blog =>
-            <Blog key={blog.id} user={user} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog}/>
-          )}
-        </div>
+      {!match &&
+        <>
+          <h2>blogs</h2>
+          {notification && <p>{notification}</p>}
+          {!isFormVisible &&
+            <div className="blogs">
+              {blogs.map(blog =>
+                <Link to={`/blogs/${blog.id}`} key={blog.id}>{blog.title}</Link>
+              )}
+            </div>
+          }
+          {isFormVisible && <BlogForm createBlog={createBlog} setIsFormVisible={setIsFormVisible} />}
+        </>
       }
-      {isFormVisible && <BlogForm createBlog={createBlog} setIsFormVisible={setIsFormVisible}/>}
+      {match && <Blog user={user} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog} />}
     </div>
   )
 }

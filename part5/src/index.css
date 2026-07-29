@@ -1,6 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .links-container {
   display: flex;
   gap: 8px;
+  margin-bottom: 16px;
+}
+
+body {
+    margin: 8px;
 }
 
 .blogs {
@@ -10,7 +21,13 @@
 }
 
 .blog {
-    border: 1px solid;
-    border-radius: 4px;
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.likes {
+    display: flex;
+    gap: 8px;
 }
