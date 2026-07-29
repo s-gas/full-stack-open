@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 import PrimaryHeader from './PrimaryHeader'
+import Notification from './Notification'
 
-const Blogs = ({blogs}) => {
-
+const Blogs = ({ blogs, notification }) => {
   return (
     <div className="px-6 py-2 flex flex-col gap-4 items-center">
+      <Notification>{notification}</Notification>
       <PrimaryHeader>Blogs</PrimaryHeader>
       <ul className="blogs">
         {blogs.map(blog =>

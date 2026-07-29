@@ -7,6 +7,8 @@ import blogService from '../services/blogs'
 
 const Home = ({user}) => {
   const [blogs, setBlogs] = useState([]);
+  const [notification, setNotification] = useState('');
+
   const navigate = useNavigate();
 
   const match = useMatch("/blogs/:id")
@@ -46,9 +48,9 @@ const Home = ({user}) => {
 
   return (
     <Routes>
-      <Route path="/" element={<Blogs blogs={blogs} setBlogs={setBlogs} />} />
+      <Route path="/" element={<Blogs blogs={blogs} notification={notification} />} />
       <Route path="/blogs/:id" element={<Blog user={user} blog={blog} likeBlog={likeBlog} removeBlog={removeBlog} />} />
-      <Route path="/create" element={<BlogForm createBlog={createBlog} />} />
+      <Route path="/create" element={<BlogForm createBlog={createBlog} setNotification={setNotification} />} />
     </Routes>
   );
 };

@@ -5,7 +5,7 @@ import PrimaryButton from './PrimaryButton'
 import PrimaryHeader from './PrimaryHeader'
 
 
-const BlogForm = ({createBlog}) => {
+const BlogForm = ({createBlog, setNotification}) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
@@ -17,6 +17,10 @@ const BlogForm = ({createBlog}) => {
     setTitle('');
     setAuthor('');
     setUrl('');
+    setNotification(`The blog "${title}" has been added`);
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
     navigate('/');
   }
 
