@@ -55,8 +55,6 @@ const Blogs = ({user, setUser}) => {
     <div>
       <h2>blogs</h2>
       {notification && <p>{notification}</p>}
-      <span>{user.name} logged in</span><button onClick={handleLogout}>logout</button>
-
       {!isFormVisible &&
         <div>
           <button onClick={() => setIsFormVisible(true)}>create new blog</button>
