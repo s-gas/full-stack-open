@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Home from './components/Home'
 import LoginForm from './components/LoginForm'
+import Navbar from './components/Navbar'
 import storage from './utils/storage'
 
 const App = () => {
@@ -24,12 +25,7 @@ const App = () => {
 
   return (
     <>
-      <div className="links-container">
-        <Link to="/">blogs</Link>
-        {user && <Link to="/create">new blog</Link>}
-        {!user && <Link to="/login">login</Link>}
-        {user && <button onClick={handleLogout}>logout</button>}
-      </div>
+      <Navbar user={user} handleLogout={handleLogout} />
       <Routes>
         <Route path="/*" element={<Home user={user} />} />
         <Route path="/login" element={<LoginForm setUser={setUser} />} />
