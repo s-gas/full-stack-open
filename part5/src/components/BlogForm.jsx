@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from './Input'
 import PrimaryButton from './PrimaryButton'
+import PrimaryHeader from './PrimaryHeader'
+
 
 const BlogForm = ({createBlog}) => {
   const [title, setTitle] = useState('');
@@ -19,8 +21,8 @@ const BlogForm = ({createBlog}) => {
   }
 
   return (
-    <div className="px-6 py-2 flex flex-col gap-2">
-      <h1 className="text-2xl">create new</h1>
+    <div className="px-6 py-2 flex flex-col gap-2 items-center">
+      <PrimaryHeader>Create New</PrimaryHeader>
       <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
         <Input label="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <Input label="author" value={author} onChange={(e) => setAuthor(e.target.value)} />

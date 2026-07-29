@@ -1,10 +1,11 @@
 import PrimaryButton from './PrimaryButton';
+import PrimaryHeader from './PrimaryHeader';
 
 const Blog = ({ user, blog, likeBlog, removeBlog }) => {
   if (!blog) return null;
   return (
     <div className="flex flex-col items-start gap-2 px-6 py-2">
-      <h1 className="text-2xl">{blog.author}: {blog.title}</h1>
+      <PrimaryHeader>{blog.author}: {blog.title}</PrimaryHeader>
       <a className="hover:underline underline-offset-4" href={blog.url} target="_blank" rel="noopener noreferrer">{blog.url}</a>
       <div className="flex gap-2 items-center">
         <span>likes {blog.likes}</span>
