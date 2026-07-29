@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Input from './Input'
+import PrimaryButton from './PrimaryButton'
 
 const BlogForm = ({createBlog}) => {
   const [title, setTitle] = useState('');
@@ -17,30 +19,15 @@ const BlogForm = ({createBlog}) => {
   }
 
   return (
-    <>
-      <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            title:
-            <input onChange={(e) => setTitle(e.target.value)}/>
-          </label>
-        </div>
-        <div>
-          <label>
-            author:
-            <input onChange={(e) => setAuthor(e.target.value)}/>
-          </label>
-        </div>
-        <div>
-          <label>
-            url:
-            <input onChange={(e) => setUrl(e.target.value)}/>
-          </label>
-        </div>
-        <button type="submit">create</button>
+    <div className="p-2 flex flex-col gap-2">
+      <h2 className="text-2xl">create new</h2>
+      <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
+        <Input label="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Input label="author" value={author} onChange={(e) => setAuthor(e.target.value)} />
+        <Input label="url" value={url} onChange={(e) => setUrl(e.target.value)} />
+        <PrimaryButton type="submit">create</PrimaryButton>
       </form>
-    </>
+    </div>
   )
 }
 

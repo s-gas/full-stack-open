@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({ user, handleLogout }) => {
   return (
-    <div className="links-container">
-      <Link to="/">blogs</Link>
-      {user && <Link to="/create">new blog</Link>}
-      {!user && <Link to="/login">login</Link>}
-      {user && <button onClick={handleLogout}>logout</button>}
+    <div className="flex gap-2 p-2 border-b border-gray-300">
+      <Link to="/" className="hover:underline underline-offset-4">blogs</Link>
+      {user && <Link className="hover:underline underline-offset-4" to="/create">new blog</Link>}
+      {!user && <Link className="hover:underline underline-offset-4" to="/login">login</Link>}
+      {user && <button className="hover:underline underline-offset-4 cursor-pointer" onClick={handleLogout}>logout</button>}
     </div>
   );
 };

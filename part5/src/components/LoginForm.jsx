@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 import { useNavigate } from 'react-router-dom'
+import Input from './Input'
+import PrimaryButton from './PrimaryButton'
 
 const LoginForm = ({setUser}) => {
   const [username, setUsername] = useState('')
@@ -25,24 +27,14 @@ const LoginForm = ({setUser}) => {
   }
 
   return (
-    <div>
-      <h2>log in to application</h2>
-      {notification && <p>{notification}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            username
-            <input onChange={(e) => setUsername(e.target.value)}/>
-          </label>
-        </div>
-        <div>
-          <label>
-            password
-            <input type="password" onChange={(e) => setPassword(e.target.value)}/>
-          </label>
-        </div>
-        <button type="submit">login</button>
+    <div className="flex flex-col gap-4 p-2">
+      <h2 className="text-2xl">log in to application</h2>
+      <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
+        <Input label="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+        <Input label="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PrimaryButton type="submit">login</PrimaryButton>
       </form>
+      {notification && <p>{notification}</p>}
     </div>
   )
 }

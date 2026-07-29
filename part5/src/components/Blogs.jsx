@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 const Blogs = ({blogs}) => {
 
   return (
-    <div>
-      <h2>blogs</h2>
-      <div className="blogs">
+    <div className="p-2 flex flex-col gap-2">
+      <h2 className="text-2xl">blogs</h2>
+      <ul className="blogs">
         {blogs.map(blog =>
-          <Link to={`/blogs/${blog.id}`} key={blog.id}>{blog.title}</Link>
+          <li className="list-disc list-inside" key={blog.id}><Link className="hover:underline underline-offset-4" to={`/blogs/${blog.id}`}>{blog.title}</Link></li>
         )}
-      </div>
+      </ul>
     </div>
   )
 }
