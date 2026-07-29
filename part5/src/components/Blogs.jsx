@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const Blogs = ({blogs}) => {
 
   return (
-    <div className="p-2 flex flex-col gap-2">
+    <div className="px-6 py-2 flex flex-col gap-2">
       <h2 className="text-2xl">blogs</h2>
       <ul className="blogs">
         {blogs.map(blog =>

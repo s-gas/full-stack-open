@@ -19,7 +19,7 @@ const BlogForm = ({createBlog}) => {
   }
 
   return (
-    <div className="p-2 flex flex-col gap-2">
+    <div className="px-6 py-2 flex flex-col gap-2">
       <h2 className="text-2xl">create new</h2>
       <form className="flex flex-col gap-2 w-40" onSubmit={handleSubmit}>
         <Input label="title" value={title} onChange={(e) => setTitle(e.target.value)} />
