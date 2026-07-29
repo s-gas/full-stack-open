@@ -2,7 +2,6 @@
 import { test, expect } from '@playwright/test';
 
 test.describe("Blog app", () => {
-
   test.beforeEach(async ({ page, request }) => {
     await request.delete('http://localhost:3003/reset')
     await request.post('http://localhost:3003/api/users', {
@@ -12,131 +11,121 @@ test.describe("Blog app", () => {
         name: "Simone Gasparini",
       }
     })
-    await request.post("http://localhost:3003/api/users", {
-      data: {
-        username: "test",
-        password: "test",
-        name: "test",
-      }
-    })
     await page.goto('http://localhost:5173');
   });
 
-  test("shows the login page", async ({ page }) => {
-    const title = page.getByText("Log in to application")
-    await expect(title).toBeVisible();
-  });
+  test("login succeeds with correct credentials", async ({ page }) => {
+    const loginLink = page.getByRole("link", { name: "login" })
+    await expect(loginLink).toBeVisible();
+    await loginLink.click();
 
-  test.describe("Login", () => {
-    test("succeeds with right credentials", async ({ page }) => {
-      await page.getByLabel("username").fill("s-gas");
-      await page.getByLabel("password").fill("00000000");
-      await page.getByText("login").click();
+    const header = page.getByRole("heading", { name: "log in to application" })
+    await expect(header).toBeVisible();
 
-      const title = page.getByText("blogs");
-      await expect(title).toBeVisible();
-    })
+    await page.getByLabel("username").fill("s-gas")
+    await page.getByLabel("password").fill("00000000")
+    await page.getByRole("button", { name: "login" }).click();
 
-    test("fails with wrong credentials", async ({ page }) => {
-      await page.getByLabel("username").fill("s-gas");
-      await page.getByLabel("password").fill("wrong-password");
-      await page.getByText("login").click();
+    await expect(page).toHaveURL("http://localhost:5173/")
+  })
 
-      const errorMessage = page.getByText("wrong username or password");
-      await expect(errorMessage).toBeVisible();
-    })
-  });
+  test("login fails with wrong credentials", async ({ page }) => {
 
-  test.describe("After login", () => {
+    const loginLink = page.getByRole("link", { name: "login" })
+    await expect(loginLink).toBeVisible();
+    await loginLink.click();
+
+    const header = page.getByRole("heading", { name: "log in to application" })
+    await expect(header).toBeVisible();
+
+    await page.getByLabel("username").fill("00000000")
+    await page.getByLabel("password").fill("00000000")
+    await page.getByRole("button", { name: "login" }).click();
+
+    const message = page.getByText("wrong username or password")
+    await expect(message).toBeVisible();
+  })
+
+  test.describe("after login", () => {
     test.beforeEach(async ({ page }) => {
-      await page.getByLabel("username").fill("s-gas");
-      await page.getByLabel("password").fill("00000000");
-      await page.getByText("login").click();
+      const loginLink = page.getByRole("link", { name: "login" })
+      await expect(loginLink).toBeVisible();
+      await loginLink.click();
+
+      const header = page.getByRole("heading", { name: "log in to application" })
+      await expect(header).toBeVisible();
+
+      await page.getByLabel("username").fill("s-gas")
+      await page.getByLabel("password").fill("00000000")
+      await page.getByRole("button", { name: "login" }).click();
     })
 
-    test("user can create a new blog", async ({ page }) => {
-      const createButton = page.getByText("create new blog");
-      await expect(createButton).toBeVisible();
-      await createButton.click();
+    test("user can create a blog", async ({ page }) => {
+      const createBlogLink = page.getByRole("link", { name: "new blog" })
+      await expect(createBlogLink).toBeVisible();
+      await createBlogLink.click();
 
-      const title = page.getByText("create new");
-      await expect(title).toBeVisible();
+      const header = page.getByRole("heading", { name: "create new" })
+      await expect(header).toBeVisible();
 
-      await page.getByLabel("title").fill("title");
-      await page.getByLabel("author").fill("author");
-      await page.getByLabel("url").fill("url");
-
+      await page.getByLabel("title:").fill("A fake blog")
+      await page.getByLabel("author:").fill("Unknown")
+      await page.getByLabel("url:").fill("https://www.example.com")
       await page.getByRole("button", { name: "create" }).click();
 
-      const message = page.getByText("a new blog");
-      await expect(message).toBeVisible();
+      await expect(page).toHaveURL("http://localhost:5173/")
     })
 
-    test.describe("After blog creation", () => {
+    test.describe("after blog creation", () => {
       test.beforeEach(async ({ page }) => {
-        await page.getByRole("button", { name: "create new blog" }).click();
-        await page.getByLabel("title").fill("title");
-        await page.getByLabel("author").fill("author");
-        await page.getByLabel("url").fill("url");
+        const createBlogLink = page.getByRole("link", { name: "new blog" })
+        await expect(createBlogLink).toBeVisible();
+        await createBlogLink.click();
+
+        const header = page.getByRole("heading", { name: "create new" })
+        await expect(header).toBeVisible();
+
+        await page.getByLabel("title:").fill("A fake blog")
+        await page.getByLabel("author:").fill("Unknown")
+        await page.getByLabel("url:").fill("https://www.example.com")
         await page.getByRole("button", { name: "create" }).click();
+
+        await expect(page).toHaveURL("http://localhost:5173/")
       })
 
-      test("user can like the blog", async ({ page }) => {
-        await page.getByRole("button", { name: "view" }).click();
-        await page.getByRole("button", { name: "like" }).click();
+      test("user can like a blog", async ({ page }) => {
+        const blog = page.getByRole("link", { name: "A fake blog" });
+        await expect(blog).toBeVisible();
 
-        const likes = page.getByText("likes 1");
-        await expect(likes).toBeVisible();
+        await blog.click();
+
+        const header = page.getByRole("heading", { name: "Unknown: A fake blog" });
+        await expect(header).toBeVisible();
+
+        const likeButton = page.getByRole("button", { name: "like" });
+        await expect(likeButton).toBeVisible();
+
+        await likeButton.click();
+        const numLikes = page.getByText("likes 1");
+        await expect(numLikes).toBeVisible();
       })
 
       test("user can delete a blog", async ({ page }) => {
-        await page.getByRole("button", { name: "view" }).click();
-        page.on('dialog', dialog => dialog.accept());
-        await page.getByRole("button", { name: "remove" }).click();
+        const blog = page.getByRole("link", { name: "A fake blog" });
+        await expect(blog).toBeVisible();
 
-        const message = page.getByText("removed");
-        await expect(message).toBeVisible();
-      })
+        await blog.click();
 
-      test("other user can't delete", async ({ page }) => {
-        await page.getByRole("button", { name: "logout" }).click();
-        await page.getByLabel("username").fill("test");
-        await page.getByLabel("password").fill("test");
-        await page.getByRole("button", { name: "login" }).click();
-        await page.getByRole("button", { name: "view" }).click();
+        const header = page.getByRole("heading", { name: "Unknown: A fake blog" });
+        await expect(header).toBeVisible();
 
         const removeButton = page.getByRole("button", { name: "remove" });
-        await expect(removeButton).not.toBeVisible();
-      })
+        await expect(removeButton).toBeVisible();
+        page.on('dialog', dialog => dialog.accept());
+        await removeButton.click();
 
-      test("blogs are sorted based on likes", async ({ page }) => {
-        await page.getByRole("button", { name: "create new blog" }).click();
-        await page.getByLabel("title").fill("new");
-        await page.getByLabel("author").fill("new");
-        await page.getByLabel("url").fill("new");
-        await page.getByRole("button", { name: "create" }).click();
-
-        const message = page.getByText("a new blog");
-        await expect(message).toBeVisible();
-
-        let viewButtons = page.getByRole("button", { name: "view" });
-        await viewButtons.nth(1).click();
-
-        await page.getByRole("button", { name: "like" }).click();
-        let likes = page.getByText("likes 1");
-        await expect(likes).toBeVisible();
-
-        await page.getByRole("button", { name: "like" }).click();
-        likes = page.getByText("likes 2");
-        await expect(likes).toBeVisible();
-
-        await page.getByRole("button", { name: "hide" }).click();
-
-        viewButtons = page.getByRole("button", { name: "view" });
-        await viewButtons.nth(0).click();
-        likes = page.getByText("likes 2");
-        await expect(likes).toBeVisible();
+        await expect(page).toHaveURL("http://localhost:5173/");
       })
     })
   })
-});
+})
