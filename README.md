@@ -23,4 +23,10 @@ In this part, we will continue our work on the backend. Our first major theme wi
 
 ## Part 5
 
-In this part, we will continue our work on the backend. Our first major theme will be writing unit and integration tests for the backend. After we have covered testing, we will take a look at implementing user authentication and authorization.
+In this part we return to the frontend, first looking at different possibilities for testing the React code. We will also implement token based authentication which will enable users to log in to our application.
+
+## Part 6
+
+So far we have placed the application's state and the logic handling it directly in React components. As applications grow, it is advisable to move the state management outside of React components. In this part we will explore the Zustand library, which is currently the most popular state management solution for React applications.
+
+We will also look at the lighter state management approach directly supported by React — namely React's context and the useReducer hook — as well as the React Query library, which simplifies managing server state.
