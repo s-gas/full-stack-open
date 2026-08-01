@@ -23,10 +23,16 @@ const useAnecdoteStore = create((set) => ({
   actions: {
     vote: (id) => set( state => {
       const updated = state.anecdotes
-                              .map((anecdote) => anecdote.id === id ? {...anecdote, votes: anecdote.votes + 1} : anecdote)
-                              .sort((a, b) => b.votes - a.votes);
+        .map((anecdote) => anecdote.id === id ? { ...anecdote, votes: anecdote.votes + 1 } : anecdote)
+        .sort((a, b) => b.votes - a.votes);
       return { anecdotes: updated }
     }),
+    add: (anecdote) => set(state => {
+      const updated = state.anecdotes
+        .concat(asObject(anecdote))
+        .sort((a, b) => b.votes - a.votes);
+      return { anecdotes: updated }
+    })
   },
 }))
 
