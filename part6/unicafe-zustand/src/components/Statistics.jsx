@@ -3,8 +3,13 @@ import { useStatistics } from "../store"
 const Statistics = () => {
   const { good, neutral, bad } = useStatistics();
   const all = good + neutral + bad;
-  const average = (((1 * good) + (-1 * bad)) / all).toFixed(2) || 0;
-  const positive = ((good + neutral) / all * 100).toFixed(2);
+  let average = 0;
+  let positive = 0;
+  if (all) {
+    average = (((1 * good) + (-1 * bad)) / all).toFixed(2) || 0;
+    positive = ((good + neutral) / all * 100).toFixed(2);
+  }
+
   return (
     <div>
       <h2>statistics</h2>
