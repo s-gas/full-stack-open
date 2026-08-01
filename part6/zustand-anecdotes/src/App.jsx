@@ -17,11 +17,14 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={(e) => {
+        e.preventDefault()
+        console.log(e.target.anecdote.value)
+      }}>
         <div>
-          <input />
+          <input name="anecdote"/>
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   )
