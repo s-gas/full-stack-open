@@ -17,12 +17,17 @@ const useAnecdoteStore = create((set) => ({
       const anecdotes = await AnecdoteService.getAll();
       set(() => ({ anecdotes: anecdotes }));
     },
-    vote: (id) => set( state => {
-      const updated = state.anecdotes
-        .map((anecdote) => anecdote.id === id ? { ...anecdote, votes: anecdote.votes + 1 } : anecdote)
-        .sort((a, b) => b.votes - a.votes);
-      return { anecdotes: updated }
-    }),
+    vote: async (id) => {
+      const anecdote = useAnecdoteStore.getState().anecdotes.find((anecdote) => anecdote.id === id)
+      const updatedAnecdote = await AnecdoteService.update(anecdote);
+      console.log(updatedAnecdote)
+      set(state => {
+        const updatedList = state.anecdotes
+          .map((anecdote) => anecdote.id === id ? updatedAnecdote : anecdote)
+          .sort((a, b) => b.votes - a.votes);
+        return { anecdotes: updatedList }
+      })
+    },
     add: async (anecdoteText) => {
       const anecdote = await AnecdoteService.createNew(asObject(anecdoteText));
       set((state) => {

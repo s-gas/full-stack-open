@@ -17,4 +17,15 @@ const createNew = async (anecdote) => {
   return await res.json();
 }
 
-export default { getAll, createNew }
+const update = async (anecdote) => {
+  const options = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...anecdote, votes: anecdote.votes + 1 }),
+  }
+  const res = await fetch(`${baseUrl}/${anecdote.id}`, options);
+  if (!res.ok) throw new Error("Failed to fetch");
+  return await res.json();
+}
+
+export default { getAll, createNew, update }
