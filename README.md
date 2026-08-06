@@ -1,5 +1,5 @@
 # full-stack-open
-My solutions for the University of Helsinki's Full Stack Open course 
+My solutions for the University of Helsinki's Full Stack Open course.
 
 ## Part 0
 Fundamentals of Web apps.
@@ -21,6 +21,9 @@ Testing React apps, React Router
 
 ## Part 6
 Advanced state management
+
+## Part 9
+TypeScript
 
 ## Certificates
 
