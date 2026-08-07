@@ -1,3 +1,14 @@
+const parseArguments = (args: string[]): { height: number, weight: number } => {
+  if (args.length != 4) throw new Error("usage: node calculateBmi <height> <weight>");
+  const height = Number(args[2]);
+  const weight = Number(args[3]);
+  if (isNaN(height) || isNaN(weight)) throw new Error("arguments must be numbers");
+  return {
+    height,
+    weight
+  }
+}
+
 const calculateBmi = (height: number, weight: number): string => {
   if (!height || !weight) throw new Error("arguments cannot be zero")
   const heightMeter = height / 100;
@@ -13,7 +24,8 @@ const calculateBmi = (height: number, weight: number): string => {
 }
 
 try {
-  console.log(calculateBmi(187, 0));
+  const {height, weight} = parseArguments(process.argv)
+  console.log(calculateBmi(height, weight));
 } catch (err) {
   if (err instanceof Error) {
     console.log(err);
@@ -21,3 +33,5 @@ try {
     console.log("error")
   }
 }
+
+export { }
