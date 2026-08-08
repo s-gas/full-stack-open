@@ -9,7 +9,7 @@ const parseArguments = (args: string[]): { height: number, weight: number } => {
   }
 }
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   if (!height || !weight) throw new Error("arguments cannot be zero")
   const heightMeter = height / 100;
   const bmi = weight / (heightMeter * heightMeter);
@@ -33,5 +33,3 @@ try {
     console.log("error")
   }
 }
-
-export { }
